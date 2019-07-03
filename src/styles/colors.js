@@ -1,15 +1,23 @@
 export default {
-  background: '#353940',
+  background: '#f6f6f6',
   backgroundDarker: '#202225',
 
-  primary: '#7289da',
+  inputBackground: '#fff',
 
   white: '#fff',
-  lighter: '#b9bbbe',
-  light: '#999',
+  lighter: '#eee',
+  light: '#ddd',
+  regular: '#999',
+  dark: '#666',
+  darker: '#333',
+  black: '#000',
 
-  inputBackground: 'rgba(0, 0, 0, 0.1)',
+  primary: '#0b2031',
+  secondary: '#706e7b',
+  success: '#6adc00',
+  danger: '#e81237',
 
-  darkTransparent: 'rgba(0, 0, 0, 0.2)',
-  darkerTransparent: 'rgba(0, 0, 0, 0.7)',
+  transparent: 'transparent',
+  darkTransparent: 'rgba(0, 0, 0, 0.8)',
+  whiteTransparent: 'rgba(255, 255, 255, 0.3)',
 };

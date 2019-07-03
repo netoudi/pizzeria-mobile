@@ -8,16 +8,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+
+  background: {
+    flex: 1,
+  },
+
+  backgroundDarker: {
+    flex: 1,
+    backgroundColor: colors.darkTransparent,
     justifyContent: 'center',
     alignItems: 'stretch',
     padding: 30,
   },
 
-  title: {
-    fontSize: 28,
-    marginBottom: 20,
-    color: colors.white,
-    textAlign: 'center',
+  logo: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+
+  logoImage: {
+    width: 72,
+    height: 72,
   },
 });
 
