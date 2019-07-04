@@ -5,10 +5,12 @@ import SignIn from './pages/signin';
 import SignUp from './pages/signup';
 import Categories from './pages/categories';
 import Products from './pages/products';
+import ProductVariants from './pages/product-variants';
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
+      ProductVariants,
       Products,
       Categories,
       SignUp,
