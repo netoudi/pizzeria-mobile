@@ -37,3 +37,14 @@ export const buttonStyles = {
     color: colors.white,
   },
 };
+
+export const boxShadow = {
+  shadowColor: colors.primary,
+  shadowOffset: {
+    width: 0,
+    height: 4,
+  },
+  shadowOpacity: 0.30,
+  shadowRadius: 4.65,
+  elevation: 2,
+};
