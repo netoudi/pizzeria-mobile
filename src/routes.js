@@ -7,10 +7,12 @@ import Categories from './pages/categories';
 import Products from './pages/products';
 import ProductVariants from './pages/product-variants';
 import Cart from './pages/cart';
+import Address from './pages/address';
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
+      Address,
       Cart,
       ProductVariants,
       Products,
