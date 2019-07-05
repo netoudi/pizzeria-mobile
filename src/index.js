@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { Toast } from 'react-native-redux-toast';
 import './config/StatusBarConfig';
 
 import Routes from './routes';
@@ -15,6 +16,7 @@ store.dispatch({
 const App = () => (
   <Provider store={store}>
     <Routes />
+    <Toast />
   </Provider>
 );
 
