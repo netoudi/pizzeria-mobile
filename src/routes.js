@@ -22,6 +22,8 @@ const Routes = createAppContainer(
       SignUp,
       SignIn,
       Main,
+    }, {
+      headerMode: 'none',
     },
   ),
 );
