@@ -6,6 +6,9 @@ import { AuthTypes } from '../ducks/auth';
 import { getCategories } from './categoires';
 import { CategoriesTypes } from '../ducks/categories';
 
+import { getProducts } from './products';
+import { ProductsTypes } from '../ducks/products';
+
 export default function* rootSaga() {
   return yield all([
     init(),
@@ -15,5 +18,7 @@ export default function* rootSaga() {
     takeLatest(AuthTypes.SIGN_OUT, signOut),
 
     takeLatest(CategoriesTypes.GET_CATEGORIES_REQUEST, getCategories),
+
+    takeLatest(ProductsTypes.GET_PRODUCTS_REQUEST, getProducts),
   ]);
 }
