@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './styles';
 
+import NavigationService from '../../../services/navigation';
+
 const Category = ({ category }) => (
-  <View style={styles.container}>
+  <TouchableOpacity
+    style={styles.container}
+    onPress={() => { NavigationService.navigate('Products', { categoryId: category.id }); }}
+  >
     <View style={styles.imageContainer}>
       <Image style={styles.image} source={{ uri: category.image_url }} />
     </View>
@@ -22,11 +27,12 @@ const Category = ({ category }) => (
         </View>
       )}
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 Category.propTypes = {
   category: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     title: PropTypes.string,
     description: PropTypes.string,
     time: PropTypes.string,
