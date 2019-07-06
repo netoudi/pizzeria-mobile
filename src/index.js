@@ -3,21 +3,14 @@ import { Provider } from 'react-redux';
 import { Toast } from 'react-native-redux-toast';
 import './config/StatusBarConfig';
 
-import Routes from './routes';
+import App from './App';
 import store from './store';
 
-store.dispatch({
-  type: 'example/request',
-  payload: {
-    message: 'Hello world!',
-  },
-});
-
-const App = () => (
+const Root = () => (
   <Provider store={store}>
-    <Routes />
+    <App />
     <Toast />
   </Provider>
 );
 
-export default App;
+export default Root;

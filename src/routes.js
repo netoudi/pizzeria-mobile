@@ -10,22 +10,25 @@ import Cart from './pages/cart';
 import Address from './pages/address';
 import Orders from './pages/orders';
 
-const Routes = createAppContainer(
-  createStackNavigator(
-    {
-      Orders,
-      Address,
-      Cart,
-      ProductVariants,
-      Products,
-      Categories,
-      SignUp,
-      SignIn,
-      Main,
-    }, {
-      headerMode: 'none',
-    },
-  ),
+const createNavigator = (isLoggedIn = false) => (
+  createAppContainer(
+    createStackNavigator(
+      {
+        Orders,
+        Address,
+        Cart,
+        ProductVariants,
+        Products,
+        Categories,
+        SignUp,
+        SignIn,
+        Main,
+      }, {
+        headerMode: 'none',
+        initialRouteName: isLoggedIn ? 'Categories' : 'SignIn',
+      },
+    ),
+  )
 );
 
-export default Routes;
+export default createNavigator;
