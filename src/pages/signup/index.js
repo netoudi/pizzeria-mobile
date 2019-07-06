@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import AuthActions from '../../store/ducks/auth';
+
+import NavigationService from '../../services/navigation';
 
 import {
   Image,
@@ -14,6 +21,10 @@ import {
 import styles from './styles';
 
 class SignUp extends Component {
+  static propTypes = {
+    signUpRequest: PropTypes.func.isRequired,
+  };
+
   state = {
     name: '',
     email: '',
@@ -22,9 +33,12 @@ class SignUp extends Component {
 
   handleSubmit = () => {
     const { name, email, password } = this.state;
+    const { signUpRequest } = this.props;
 
-    // SAGA(name, email, password)
+    signUpRequest(name, email, password);
   };
+
+  signIn = () => NavigationService.navigate('SignIn');
 
   render() {
     const { name, email, password } = this.state;
@@ -90,7 +104,7 @@ class SignUp extends Component {
               <Text style={styles.buttonText}>Criar conta</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => {}} style={styles.buttonLink}>
+            <TouchableOpacity onPress={this.signIn} style={styles.buttonLink}>
               <Text style={styles.buttonLinkText}>Já tenho login</Text>
             </TouchableOpacity>
           </View>
@@ -100,4 +114,6 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => bindActionCreators(AuthActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(SignUp);
