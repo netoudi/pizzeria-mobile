@@ -4,10 +4,12 @@ import { toastReducer as toast } from 'react-native-redux-toast';
 import { reducer as auth } from './auth';
 import { reducer as categories } from './categories';
 import { reducer as products } from './products';
+import { reducer as productVariants } from './product-variants';
 
 export default combineReducers({
   toast,
   auth,
   categories,
   products,
+  productVariants,
 });

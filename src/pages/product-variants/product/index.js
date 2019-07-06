@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import styles from './styles';
+
+import NavigationService from '../../../services/navigation';
 
 const makeImage = (style, source) => <Image style={style} source={source} />;
 
@@ -42,17 +44,21 @@ const image = (product) => {
 };
 
 const Product = ({ product }) => (
-  <View style={styles.container}>
+  <TouchableOpacity
+    style={styles.container}
+    onPress={() => { NavigationService.navigate('Cart', { variantId: product.id }); }}
+  >
     <View style={styles.imageContainer}>
       {image(product)}
     </View>
     <Text style={styles.title}>{product.title}</Text>
     <Text style={styles.price}>{formatMoney(product.price)}</Text>
-  </View>
+  </TouchableOpacity>
 );
 
 Product.propTypes = {
   product: PropTypes.shape({
+    id: PropTypes.number,
     title: PropTypes.string,
     price: PropTypes.number,
     image_url: PropTypes.string,

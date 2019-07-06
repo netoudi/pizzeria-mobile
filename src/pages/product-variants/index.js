@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { ActivityIndicator, FlatList, View } from 'react-native';
 
-import Header from './header';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import ProductVariantsActions from '../../store/ducks/product-variants';
+
+import Background from '../../components/background';
+import Header from '../../components/header';
+import ProductHeader from './header';
 import Product from './product';
 import styles from './styles';
 
 class ProductVariants extends Component {
-  state = {
-    data: {},
-    loading: true,
-    refreshing: false,
+  static propTypes = {
+    getProductVariantsRequest: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -18,81 +23,51 @@ class ProductVariants extends Component {
   }
 
   loadProductVariants = () => {
-    this.setState({ refreshing: true });
+    const { navigation, getProductVariantsRequest } = this.props;
+    const productId = navigation.getParam('productId');
 
-    const data = {
-      'id': 1,
-      'title': '4 QUEIJOS',
-      'description': 'MOLHO DE TOMATE, MUCARELA, PROVOLONE, PARMESAO, CATUPIRY E OREGANO',
-      'time': '30 mins',
-      'image_url': 'http://192.168.0.145:3333/files/00edcf3a7f4ab93d2684651d1920c3b6.jpeg',
-      'variants': [
-        {
-          'id': 1,
-          'title': 'Grande',
-          'price': 69.9,
-          'image_url': null,
-        },
-        {
-          'id': 2,
-          'title': 'Media',
-          'price': 67.9,
-          'image_url': null,
-        },
-        {
-          'id': 3,
-          'title': 'Pequena',
-          'price': 63.9,
-          'image_url': null,
-        },
-        {
-          'id': 3,
-          'title': 'Gigante',
-          'price': 75.97,
-          'image_url': null,
-        },
-      ],
-    };
-
-    this.setState({
-      data,
-      loading: false,
-      refreshing: false,
-    });
+    getProductVariantsRequest(productId);
   };
-
-  sortPriceDesc = (a, b) => b.price - a.price;
 
   renderListItem = ({ item }) => <Product product={item} />;
 
   renderList = () => {
-    const { data, refreshing } = this.state;
+    const { productVariants } = this.props;
 
     return (
       <FlatList
-        ListHeaderComponent={<Header product={data} />}
-        data={data.variants.sort(this.sortPriceDesc)}
+        ListHeaderComponent={<ProductHeader product={productVariants.data} />}
+        data={productVariants.data.variants}
         keyExtractor={item => String(item.id)}
         renderItem={this.renderListItem}
         onRefresh={this.loadProductVariants}
-        refreshing={refreshing}
+        refreshing={productVariants.loading}
         numColumns="2"
       />
     );
   };
 
   render() {
-    const { loading } = this.state;
+    const { productVariants } = this.props;
 
     return (
-      <View style={styles.container}>
-        {loading
-          ? <ActivityIndicator style={styles.loading} />
-          : this.renderList()
-        }
-      </View>
+      <Background>
+        <Header title="Pizzeria Don Juan" />
+        <View style={styles.container}>
+          {productVariants.loading
+            ? <ActivityIndicator style={styles.loading} />
+            : this.renderList()
+          }
+        </View>
+      </Background>
     );
   }
 }
 
-export default ProductVariants;
+const mapStateToProps = state => ({
+  productVariants: state.productVariants,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(ProductVariantsActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductVariants);
