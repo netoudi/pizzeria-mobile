@@ -1,137 +1,90 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { ActivityIndicator, FlatList, View } from 'react-native';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import CartActions from '../../store/ducks/cart';
+
+import Background from '../../components/background';
+import Header from '../../components/header';
 import Item from './item';
 import Footer from './footer';
 import styles from './styles';
 
 class Cart extends Component {
-  state = {
-    data: {},
-    loading: true,
-    refreshing: false,
+  static propTypes = {
+    addItemRequest: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    this.loadCart();
+    const { navigation, addItemRequest } = this.props;
+    const variantId = navigation.getParam('variantId');
+
+    if (variantId !== undefined) {
+      addItemRequest(variantId);
+    }
   }
-
-  loadCart = () => {
-    this.setState({ refreshing: true });
-
-    const data = {
-      'description': 'description...',
-      'address': {
-        'zipcode': '00000000',
-        'street': 'street...',
-        'number': '000',
-        'neighborhood': 'neighborhood...',
-        'city': 'city...',
-        'state': 'state...',
-      },
-      'items': [
-        {
-          'id': 1,
-          'title': '4 QUEIJOS / Grande',
-          'description': 'MOLHO DE TOMATE, MUCARELA, PROVOLONE, PARMESAO, CATUPIRY E OREGANO',
-          'image_url': 'http://192.168.0.145:3333/files/00edcf3a7f4ab93d2684651d1920c3b6.jpeg',
-          'variant_id': 5,
-          'quantity': 1,
-          'value_unitary': 68.9,
-          'value_total': 68.9,
-        },
-        {
-          'id': 2,
-          'title': '4 QUEIJOS / Grande',
-          'description': 'MOLHO DE TOMATE, MUCARELA, PROVOLONE, PARMESAO, CATUPIRY E OREGANO',
-          'image_url': 'http://192.168.0.145:3333/files/00edcf3a7f4ab93d2684651d1920c3b6.jpeg',
-          'variant_id': 5,
-          'quantity': 1,
-          'value_unitary': 68.9,
-          'value_total': 68.9,
-        },
-        {
-          'id': 3,
-          'title': '4 QUEIJOS / Grande',
-          'description': 'MOLHO DE TOMATE, MUCARELA, PROVOLONE, PARMESAO, CATUPIRY E OREGANO',
-          'image_url': 'http://192.168.0.145:3333/files/00edcf3a7f4ab93d2684651d1920c3b6.jpeg',
-          'variant_id': 5,
-          'quantity': 1,
-          'value_unitary': 68.9,
-          'value_total': 68.9,
-        },
-        {
-          'id': 4,
-          'title': '4 QUEIJOS / Grande',
-          'description': 'MOLHO DE TOMATE, MUCARELA, PROVOLONE, PARMESAO, CATUPIRY E OREGANO',
-          'image_url': 'http://192.168.0.145:3333/files/00edcf3a7f4ab93d2684651d1920c3b6.jpeg',
-          'variant_id': 5,
-          'quantity': 1,
-          'value_unitary': 68.9,
-          'value_total': 68.9,
-        },
-        {
-          'id': 5,
-          'title': '4 QUEIJOS / Grande',
-          'description': 'MOLHO DE TOMATE, MUCARELA, PROVOLONE, PARMESAO, CATUPIRY E OREGANO',
-          'image_url': 'http://192.168.0.145:3333/files/00edcf3a7f4ab93d2684651d1920c3b6.jpeg',
-          'variant_id': 5,
-          'quantity': 1,
-          'value_unitary': 68.9,
-          'value_total': 68.9,
-        },
-        {
-          'id': 6,
-          'title': '4 QUEIJOS / Grande',
-          'description': 'MOLHO DE TOMATE, MUCARELA, PROVOLONE, PARMESAO, CATUPIRY E OREGANO',
-          'image_url': 'http://192.168.0.145:3333/files/00edcf3a7f4ab93d2684651d1920c3b6.jpeg',
-          'variant_id': 5,
-          'quantity': 1,
-          'value_unitary': 68.9,
-          'value_total': 68.9,
-        },
-      ],
-      'number_items': 6,
-      'value_total': 267.6,
-    };
-
-    this.setState({
-      data,
-      loading: false,
-      refreshing: false,
-    });
-  };
 
   renderListItem = ({ item }) => <Item item={item} />;
 
+  renderCartFooter = () => {
+    const { navigation, cart } = this.props;
+
+    if (cart.data.number_items === 0) {
+      return <View />;
+    }
+
+    return (
+      <Footer
+        buttonMore={() => { navigation.navigate('Categories'); }}
+        buttonNext={() => { navigation.navigate('Address'); }}
+      />
+    );
+  };
+
+  renderCartEmpty = () => (
+    <View style={styles.empty}>
+      <Text>Seu carrinho de compras está vazio.</Text>
+    </View>
+  );
+
   renderList = () => {
-    const { data, refreshing } = this.state;
+    const { cart } = this.props;
 
     return (
       <FlatList
-        ListFooterComponent={<Footer buttonMore={() => {}} buttonNext={() => {}} />}
-        data={data.items}
+        ListFooterComponent={this.renderCartFooter}
+        ListEmptyComponent={this.renderCartEmpty}
+        data={cart.data.items}
         keyExtractor={item => String(item.id)}
         renderItem={this.renderListItem}
-        onRefresh={this.loadCart}
-        refreshing={refreshing}
       />
     );
   };
 
   render() {
-    const { loading } = this.state;
+    const { cart } = this.props;
 
     return (
-      <View style={styles.container}>
-        {loading
-          ? <ActivityIndicator style={styles.loading} />
-          : this.renderList()
-        }
-      </View>
+      <Background>
+        <Header title="Pizzeria Don Juan" />
+        <View style={styles.container}>
+          {cart.loading
+            ? <ActivityIndicator style={styles.loading} />
+            : this.renderList()
+          }
+        </View>
+      </Background>
     );
   }
 }
 
-export default Cart;
+const mapStateToProps = state => ({
+  cart: state.cart,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

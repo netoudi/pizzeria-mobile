@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import CartActions from '../../../store/ducks/cart';
+
 import styles from './styles';
 
 const formatMoney = (value) => {
@@ -14,7 +19,7 @@ const formatMoney = (value) => {
   return `R$ ${amount}`;
 };
 
-const CartItem = ({ item }) => (
+const CartItem = ({ item, delItemRequest }) => (
   <View style={styles.container}>
     <View style={styles.imageContainer}>
       <Image style={styles.image} source={{ uri: item.image_url }} />
@@ -26,7 +31,10 @@ const CartItem = ({ item }) => (
       <Text style={styles.price}>{formatMoney(item.value_unitary)}</Text>
     </View>
 
-    <TouchableOpacity onPress={() => {}} style={styles.actionContainer}>
+    <TouchableOpacity
+      onPress={() => { delItemRequest(item.id); }}
+      style={styles.actionContainer}
+    >
       <Icon name="delete-forever" size={18} style={styles.deleteIcon} />
     </TouchableOpacity>
   </View>
@@ -34,11 +42,15 @@ const CartItem = ({ item }) => (
 
 CartItem.propTypes = {
   item: PropTypes.shape({
+    id: PropTypes.number,
     title: PropTypes.string,
     description: PropTypes.string,
     value_unitary: PropTypes.number,
     image_url: PropTypes.string,
   }).isRequired,
+  delItemRequest: PropTypes.func.isRequired,
 };
 
-export default CartItem;
+const mapDispatchToProps = dispatch => bindActionCreators(CartActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(CartItem);
