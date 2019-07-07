@@ -4,7 +4,6 @@ import { colors, general, metrics } from '../../styles';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
     paddingHorizontal: metrics.basePadding * 2,
     paddingVertical: metrics.baseMargin * 2,
   },
