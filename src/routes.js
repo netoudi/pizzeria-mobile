@@ -9,11 +9,13 @@ import ProductVariants from './pages/product-variants';
 import Cart from './pages/cart';
 import Address from './pages/address';
 import Orders from './pages/orders';
+import Checkout from './pages/checkout';
 
 const createNavigator = (isLoggedIn = false) => (
   createAppContainer(
     createStackNavigator(
       {
+        Checkout,
         Orders,
         Address,
         Cart,

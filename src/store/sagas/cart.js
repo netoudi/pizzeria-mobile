@@ -2,6 +2,7 @@ import { call, put, select } from 'redux-saga/effects';
 import { ToastActionsCreators } from 'react-native-redux-toast';
 
 import api from '../../services/api';
+import NavigationService from '../../services/navigation';
 
 import CartActions from '../ducks/cart';
 
@@ -28,7 +29,10 @@ export function* addItem({ variantId }) {
       ...cart,
       items,
       number_items: items.length,
-      value_total: items.reduce((acc, curr) => acc + curr.value_total, 0).toFixed(2),
+      value_total: parseFloat(
+        items.reduce((acc, curr) => acc + curr.value_total, 0).toFixed(2),
+        10,
+      ),
     };
 
     yield put(CartActions.addItemSuccess(data));
@@ -48,7 +52,10 @@ export function* delItem({ itemId }) {
       ...cart,
       items,
       number_items: items.length,
-      value_total: items.reduce((acc, curr) => acc + curr.value_total, 0).toFixed(2),
+      value_total: parseFloat(
+        items.reduce((acc, curr) => acc + curr.value_total, 0).toFixed(2),
+        10,
+      ),
     };
 
     yield put(CartActions.delItemSuccess(data));
@@ -69,7 +76,39 @@ export function* addInfo({ description, address }) {
     };
 
     yield put(CartActions.addInfoSuccess(data));
+
+    NavigationService.navigate('Checkout');
   } catch (err) {
     yield put(CartActions.addInfoFailure(err));
+  }
+}
+
+export function* checkout() {
+  try {
+    const cart = yield select(state => state.cart.data);
+
+    yield call(api.post, 'orders', cart);
+
+    yield put(CartActions.checkoutSuccess({
+      description: '',
+      address: {
+        zipcode: '',
+        street: '',
+        number: '',
+        neighborhood: '',
+        city: '',
+        state: '',
+      },
+      items: [],
+      number_items: 0,
+      value_total: 0,
+    }));
+
+    yield put(ToastActionsCreators.displayInfo('Pedido realizado com sucesso'));
+
+    NavigationService.navigate('Orders');
+  } catch (err) {
+    yield put(ToastActionsCreators.displayError('Não foi possível finalizar o pedido'));
+    yield put(CartActions.checkoutFailure(err));
   }
 }

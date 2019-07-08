@@ -15,6 +15,10 @@ const { Types, Creators } = createActions({
   addInfoRequest: ['description', 'address'],
   addInfoSuccess: ['data'],
   addInfoFailure: ['error'],
+
+  checkoutRequest: null,
+  checkoutSuccess: ['data'],
+  checkoutFailure: ['error'],
 });
 
 export const CartTypes = Types;
@@ -73,4 +77,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ADD_INFO_REQUEST]: request,
   [Types.ADD_INFO_SUCCESS]: success,
   [Types.ADD_INFO_FAILURE]: failure,
+
+  [Types.CHECKOUT_REQUEST]: request,
+  [Types.CHECKOUT_SUCCESS]: success,
+  [Types.CHECKOUT_FAILURE]: failure,
 });

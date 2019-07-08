@@ -181,7 +181,7 @@ class Address extends Component {
 
             <View style={styles.actionContainer}>
               <TouchableOpacity onPress={this.handleSubmit} style={styles.buttonNext}>
-                <Text style={styles.buttonNextText}>FINALIZAR</Text>
+                <Text style={styles.buttonNextText}>CONTINUAR</Text>
                 <Icon name="chevron-right" size={18} style={styles.buttonNextIcon} />
               </TouchableOpacity>
             </View>

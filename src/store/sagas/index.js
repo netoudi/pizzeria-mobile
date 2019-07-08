@@ -12,7 +12,7 @@ import { ProductsTypes } from '../ducks/products';
 import { getProductVariants } from './product-variants';
 import { ProductVariantsTypes } from '../ducks/product-variants';
 
-import { addInfo, addItem, delItem } from './cart';
+import { addInfo, addItem, checkout, delItem } from './cart';
 import { CartTypes } from '../ducks/cart';
 
 export default function* rootSaga() {
@@ -32,5 +32,6 @@ export default function* rootSaga() {
     takeLatest(CartTypes.ADD_ITEM_REQUEST, addItem),
     takeLatest(CartTypes.DEL_ITEM_REQUEST, delItem),
     takeLatest(CartTypes.ADD_INFO_REQUEST, addInfo),
+    takeLatest(CartTypes.CHECKOUT_REQUEST, checkout),
   ]);
 }
