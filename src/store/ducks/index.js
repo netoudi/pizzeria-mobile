@@ -6,6 +6,7 @@ import { reducer as categories } from './categories';
 import { reducer as products } from './products';
 import { reducer as productVariants } from './product-variants';
 import { reducer as cart } from './cart';
+import { reducer as orders } from './orders';
 
 export default combineReducers({
   toast,
@@ -14,4 +15,5 @@ export default combineReducers({
   products,
   productVariants,
   cart,
+  orders,
 });

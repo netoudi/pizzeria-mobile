@@ -1,82 +1,65 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { ActivityIndicator, FlatList, View } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import OrdersActions from '../../store/ducks/orders';
+
+import Background from '../../components/background';
+import Header from '../../components/header';
 import Order from './order';
 import styles from './styles';
 
 class Orders extends Component {
-  state = {
-    data: [],
-    loading: true,
-    refreshing: false,
+  static propTypes = {
+    getOrdersRequest: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    this.loadOrders();
+    const { getOrdersRequest } = this.props;
+
+    getOrdersRequest();
   }
-
-  loadOrders = () => {
-    this.setState({ refreshing: true });
-
-    const data = [
-      {
-        'id': 1,
-        'value_total': 99.87,
-        'created_at': '2019-07-04 18:38:00',
-      },
-      {
-        'id': 2,
-        'value_total': 99.87,
-        'created_at': '2019-07-04 18:38:00',
-      },
-      {
-        'id': 3,
-        'value_total': 99.87,
-        'created_at': '2019-07-04 18:38:00',
-      },
-      {
-        'id': 4,
-        'value_total': 99.87,
-        'created_at': '2019-07-04 18:38:00',
-      },
-    ];
-
-    this.setState({
-      data,
-      loading: false,
-      refreshing: false,
-    });
-  };
 
   renderListItem = ({ item }) => <Order order={item} />;
 
   renderList = () => {
-    const { data, refreshing } = this.state;
+    const { orders, getOrdersRequest } = this.props;
 
     return (
       <FlatList
-        data={data}
+        data={orders.data}
         keyExtractor={item => String(item.id)}
         renderItem={this.renderListItem}
-        onRefresh={this.loadOrders}
-        refreshing={refreshing}
+        onRefresh={getOrdersRequest}
+        refreshing={orders.loading}
       />
     );
   };
 
   render() {
-    const { loading } = this.state;
+    const { orders } = this.props;
 
     return (
-      <View style={styles.container}>
-        {loading
-          ? <ActivityIndicator style={styles.loading} />
-          : this.renderList()
-        }
-      </View>
+      <Background>
+        <Header title="Pizzeria Don Juan" />
+        <View style={styles.container}>
+          {orders.loading
+            ? <ActivityIndicator style={styles.loading} />
+            : this.renderList()
+          }
+        </View>
+      </Background>
     );
   }
 }
 
-export default Orders;
+const mapStateToProps = state => ({
+  orders: state.orders,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(OrdersActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Orders);

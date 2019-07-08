@@ -15,6 +15,9 @@ import { ProductVariantsTypes } from '../ducks/product-variants';
 import { addInfo, addItem, checkout, delItem } from './cart';
 import { CartTypes } from '../ducks/cart';
 
+import { getOrders } from './orders';
+import { OrdersTypes } from '../ducks/orders';
+
 export default function* rootSaga() {
   return yield all([
     init(),
@@ -33,5 +36,7 @@ export default function* rootSaga() {
     takeLatest(CartTypes.DEL_ITEM_REQUEST, delItem),
     takeLatest(CartTypes.ADD_INFO_REQUEST, addInfo),
     takeLatest(CartTypes.CHECKOUT_REQUEST, checkout),
+
+    takeLatest(OrdersTypes.GET_ORDERS_REQUEST, getOrders),
   ]);
 }
