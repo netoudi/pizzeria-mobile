@@ -8,6 +8,8 @@ import CategoriesActions from '../../store/ducks/categories';
 
 import Background from '../../components/background';
 import Header from '../../components/header';
+import ButtonOrders from '../../components/button/orders';
+import ButtonCart from '../../components/button/cart';
 import Category from './category';
 import styles from './styles';
 
@@ -43,7 +45,7 @@ class Categories extends Component {
 
     return (
       <Background>
-        <Header title="Pizzeria Don Juan" />
+        <Header title="Pizzeria Don Juan" ButtonLeft={ButtonOrders} ButtonRight={ButtonCart} />
         <View style={styles.container}>
           {categories.loading
             ? <ActivityIndicator style={styles.loading} />

@@ -29,8 +29,8 @@ Header.propTypes = {
     navigate: PropTypes.func,
   }).isRequired,
   title: PropTypes.string,
-  ButtonLeft: PropTypes.func,
-  ButtonRight: PropTypes.func,
+  ButtonLeft: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  ButtonRight: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 };
 
 Header.defaultProps = {

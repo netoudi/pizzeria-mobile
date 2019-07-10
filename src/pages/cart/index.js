@@ -9,6 +9,8 @@ import CartActions from '../../store/ducks/cart';
 
 import Background from '../../components/background';
 import Header from '../../components/header';
+import ButtonBack from '../../components/button/back';
+import ButtonCartTotal from '../../components/button/total';
 import Item from './item';
 import Footer from './footer';
 import styles from './styles';
@@ -65,11 +67,18 @@ class Cart extends Component {
   };
 
   render() {
-    const { cart } = this.props;
+    const { navigation, cart } = this.props;
+    const variantId = navigation.getParam('variantId');
+    const goBackCategories = <ButtonBack routeName="Categories" />;
+    const goBackProductVariants = <ButtonBack routeName="ProductVariants" params={{ variantId }} />;
 
     return (
       <Background>
-        <Header title="Pizzeria Don Juan" />
+        <Header
+          title="Carrinho"
+          ButtonLeft={() => variantId !== undefined ? goBackProductVariants : goBackCategories}
+          ButtonRight={ButtonCartTotal}
+        />
         <View style={styles.container}>
           {cart.loading
             ? <ActivityIndicator style={styles.loading} />

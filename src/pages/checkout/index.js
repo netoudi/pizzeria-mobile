@@ -9,6 +9,8 @@ import CartActions from '../../store/ducks/cart';
 
 import Background from '../../components/background';
 import Header from '../../components/header';
+import ButtonBack from '../../components/button/back';
+import ButtonCartTotal from '../../components/button/total';
 import ListHeader from './header';
 import ListFooter from './footer';
 import Item from './item';
@@ -48,7 +50,11 @@ class Checkout extends Component {
 
     return (
       <Background>
-        <Header title="Pizzeria Don Juan" />
+        <Header
+          title="Realizar pedido"
+          ButtonLeft={() => <ButtonBack routeName="Address" />}
+          ButtonRight={ButtonCartTotal}
+        />
         <View style={styles.container}>
           {cart.loading
             ? <ActivityIndicator style={styles.loading} />

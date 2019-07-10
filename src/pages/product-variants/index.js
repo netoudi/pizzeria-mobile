@@ -9,6 +9,7 @@ import ProductVariantsActions from '../../store/ducks/product-variants';
 
 import Background from '../../components/background';
 import Header from '../../components/header';
+import ButtonBack from '../../components/button/back';
 import ProductHeader from './header';
 import Product from './product';
 import styles from './styles';
@@ -48,11 +49,15 @@ class ProductVariants extends Component {
   };
 
   render() {
-    const { productVariants } = this.props;
+    const { navigation, productVariants } = this.props;
+    const productId = navigation.getParam('productId');
 
     return (
       <Background>
-        <Header title="Pizzeria Don Juan" />
+        <Header
+          title="Selecione um tamanho"
+          ButtonLeft={() => <ButtonBack routeName="Products" params={{ productId }} />}
+        />
         <View style={styles.container}>
           {productVariants.loading
             ? <ActivityIndicator style={styles.loading} />

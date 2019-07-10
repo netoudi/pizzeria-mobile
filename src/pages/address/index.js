@@ -19,6 +19,8 @@ import CartActions from '../../store/ducks/cart';
 
 import Background from '../../components/background';
 import Header from '../../components/header';
+import ButtonBack from '../../components/button/back';
+import ButtonCartTotal from '../../components/button/total';
 
 import AddressService from '../../services/address';
 
@@ -74,7 +76,11 @@ class Address extends Component {
 
     return (
       <Background>
-        <Header title="Pizzeria Don Juan" />
+        <Header
+          title="Endereço de entrega"
+          ButtonLeft={() => <ButtonBack routeName="Cart" />}
+          ButtonRight={ButtonCartTotal}
+        />
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null}
           style={styles.container}
         >

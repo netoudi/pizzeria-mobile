@@ -9,6 +9,8 @@ import OrdersActions from '../../store/ducks/orders';
 
 import Background from '../../components/background';
 import Header from '../../components/header';
+import ButtonBack from '../../components/button/back';
+import ButtonLogout from '../../components/button/logout';
 import Order from './order';
 import styles from './styles';
 
@@ -44,7 +46,11 @@ class Orders extends Component {
 
     return (
       <Background>
-        <Header title="Pizzeria Don Juan" />
+        <Header
+          title="Meus pedidos"
+          ButtonLeft={() => <ButtonBack routeName="Categories" />}
+          ButtonRight={ButtonLogout}
+        />
         <View style={styles.container}>
           {orders.loading
             ? <ActivityIndicator style={styles.loading} />

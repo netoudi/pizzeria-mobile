@@ -9,6 +9,7 @@ import ProductsActions from '../../store/ducks/products';
 
 import Background from '../../components/background';
 import Header from '../../components/header';
+import ButtonBack from '../../components/button/back';
 import Product from './product';
 import styles from './styles';
 
@@ -50,7 +51,10 @@ class Products extends Component {
 
     return (
       <Background>
-        <Header title="Pizzeria Don Juan" />
+        <Header
+          title="Selecione um tipo"
+          ButtonLeft={() => <ButtonBack routeName="Categories" />}
+        />
         <View style={styles.container}>
           {products.loading
             ? <ActivityIndicator style={styles.loading} />
